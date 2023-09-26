@@ -1,46 +1,24 @@
 public class Length {
+
     private final double value;
     private final String unit;
 
-    public Length(double val, String uinnt) {
+    public Length(double val, String unit) {
         this.value = val;
-        this.unit = uinnt;
+        this.unit = unit;
     }
 
-    public Length as(String u) {
-        Length len = this;
-        if (this.unit.equals("f")) {
-            if (u.equals("yard")) {
-                len = new Length(this.value / 3, u);
-            } else if (u.equals("inch")) {
-                len = new Length(this.value * 12, u);
-            }
-        }
-
-        if (this.unit.equals("yard")) {
-            if (u.equals("inch")) {
-                len = new Length(this.value * 36, u);
-            } else if (u.equals("f")){
-                len = new Length(this.value * 3, u);
-            }
-        }
-
-        if (this.unit.equals("inch")) {
-            if (u.equals("f")) {
-                len = new Length(this.value / 12, u);
-            } else if (u.equals("yard")) {
-                len = new Length(this.value / 36, u);
-            }
-        }
-
-        return len;
+    public Length convertToNewUnit(String newUnit) {
+        LengthUnitEnum fromUnit = LengthUnitEnum.valueOf(this.unit.toUpperCase());
+        LengthUnitEnum toUnit = LengthUnitEnum.valueOf(newUnit.toUpperCase());
+        return new Length(LengthUnitEnum.getConversionRatio(fromUnit, toUnit) * this.value, newUnit);
     }
 
     public double getVal() {
         return this.value;
     }
 
-    public String getUinnt() {
+    public String getUnit() {
         return this.unit;
     }
 }
